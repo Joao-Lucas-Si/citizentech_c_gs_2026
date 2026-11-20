@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <p>olá</p> -->
+    <div>
+        <form method="get" action="/">
+            <fieldset>
+                <legend>pesquisa</legend>
+                <input name="query" type="search" />
+                <button type="submit">pesquisar</button>
+                <button type="button">
+                    <a href="/create">add</a>
+                </button>
+                <button onclick="toggleFilterVisibility()" type="button">
+                    filtrar
+                </button>
+            </fieldset>
+            <fieldset class="hidden" id="filter-set">
+                <legend>filtros e ordenação</legend>
+                <div
+                    style="display: flex;gap: 10px; justify-content: center; align-items: center; justify-items: center; align-content: center;">
+
+                    <div style="display: flex; flex-direction: column; width: 200px;">
+                        <label>ordem</label>
+                        <div>
+
+                            <label for="order-position">posição: </label>
+                            <input type="radio" name="order" value="position" id="order-position">
+                        </div>
+                        <div>
+
+                            <label for="order-priority">prioridade: </label>
+                            <input type="radio" name="order" value="priority" id="order-priority">
+                        </div>
+                        <div>
+
+                            <label for="order-date">data: </label>
+                            <input type="radio" name="order" value="date" id="order-date">
+                        </div>
+                         <div>
+
+                            <label for="order-date">id: </label>
+                            <input type="radio" name="order" value="id" id="order-date">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="">filtros</label>
+                        <div>
+                            <div>
+
+                                <input type="checkbox" name="filters" value="0" id="">
+                                <label for="">urgentes</label>
+                            </div>
+                            <div>
+
+                                <input type="checkbox" name="filters" value="1" id="">
+                                <label for="">intermediarios</label>
+                            </div>
+                            <div>
+
+                                <input type="checkbox" name="filters" value="2" id="">
+                                <label for="">simples</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div>
+                        <div>
+                            <label for="">preço</label>
+                            <input type="number" name="" id="">
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <div>
+
+                                <label for="">maior</label>
+                                <input value="maior" type="radio" name="price-type" id="">
+                            </div>
+                            <div>
+
+                                <label for="">igual</label>
+                                <input value="igual" type="radio" name="price-type" id="">
+                            </div>
+                            <div>
+
+                                <label for="">menor</label>
+                                <input value="menor" type="radio" name="price-type" id="">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+
+                            <label for="">quantidade</label>
+                            <input type="number" name="" id="">
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <div>
+                                <label for="">maior</label>
+                                <input value="maior" type="radio" name="price-type" id="">
+
+                            </div>
+                            <div>
+                                <label for="">igual</label>
+                                <input value="igual" type="radio" name="price-type" id="">
+
+                            </div>
+                            <div>
+
+                                <label for="">menor</label>
+                                <input value="menor" type="radio" name="price-type" id="">
+                            </div>
+                        </div> -->
+                </div>
+    </div>
+    </fieldset>
+    </form>
+    </div>
+    <table>
+
+    </table>
+    <script>
+        function toggleFilterVisibility() {
+            const set = document.querySelector("#filter-set")
+
+            set.classList.toggle("hidden")
+        }
+
+        function deleteRow(row) {
+            fetch("/api/delete", {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    target: row
+                })
+            }).then(e => e.text()).then(e => {
+                console.log(e)
+                update()
+            }).catch(e => {
+                console.log(e)
+            })
+        }
+        function update() {
+
+            const table = document.querySelector("table")
+            const cabecalho = document.createElement("tr")
+            cabecalho.innerHTML = `
+                <th>posição</th>
+                <th>id</th>
+                <th>nome</th>
+                <th>condição</th>
+                <th>prioridade</th>
+               <!-- <th>date</th> -->
+                <th>ações</th>
+            `
+            table.replaceChildren(cabecalho)
+            console.log(document.URL)
+            let paramString = document.URL.split('?')[1];
+            // let queryString = new URLSearchParams(paramString)
+            // console.log(queryString)
+            fetch(`/api/read?${paramString}`).then(e => e.json()).then(e => {
+
+                console.log(e)
+                e.forEach((i, j) => {
+                    const tr = document.createElement("tr")
+                    tr.innerHTML = `
+                        <td>${i.position}</td>
+                        <td>${i.id}</td>
+                        <td>${i.name}</td>
+                        <td>${i.condition}</td>
+                        <td>${i.conditionPriority == 0 ? "urgente" : i.conditionPriority == 1 ? "intermediario" : "simples"}</td>
+                        <!-- <td>${i.date}</td> -->
+                        <td>
+                            <button >
+                                <a href="/create?id=${i.id}">
+                                editar
+                                </a>
+                            </button>
+                            <button onclick="deleteRow(${i.id})">
+                                deletar
+                            </button>    
+                        </td>
+                    `
+                    table.appendChild(tr)
+                })
+            })
+        }
+        update()
+
+        window.onload = () => {
+            console.log("back")
+        }
+    </script>
+</body>
+
+</html>

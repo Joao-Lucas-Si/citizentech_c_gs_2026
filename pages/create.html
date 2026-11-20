@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="assets/favicon.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body>
+    <h1>form</h1>
+
+    <form action="#" onsubmit="send(event)" method="post">
+        <fieldset id="data" name="data">
+            <legend>dados</legend>
+            <label for="name">nome</label>
+            <input type="text" name="name" id="name">
+        </fieldset>
+        <fieldset>
+            <legend>condição</legend>
+            <div>
+                <label for="condition">condição</label>
+                <textarea type="text" name="condition" id="condition"></textarea>
+
+            </div>
+            <div>
+
+                <label for="priority">prioridade</label>
+                <select id="priority" name="priority">
+                    <option value="0">urgente</option>
+                    <option value="1">intermediario</option>
+                    <option value="2">simples</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <button type="submit">enviar</button>
+    </form>
+    <script>
+        const name = document.querySelector("#name")
+        const condition = document.querySelector("#condition")
+        const priority = document.querySelector("#priority")
+        let paramString = document.URL.split('?')[1];
+        let queryString = new URLSearchParams(paramString)
+        const id = queryString.get("id")
+        console.log(id)
+        function send(e) {
+            // console.log(e)
+            e.preventDefault()
+            // const quantity = document.querySelector("#quantity")
+
+            console.log(name.value, condition.value, priority.value)
+
+            console.log(`/api/update?id=${id}`)
+            fetch(id ? `/api/update?id=${id}` : "/api/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: name.value, condition: condition.value, conditionPriority: priority.value })
+            }).then(e => e.text()).then(e => {
+                console.log(e)
+
+                window.location.href = "/"
+                // window.location.reload(window.history.back())
+            })
+
+
+        }
+
+        if (id) {
+            fetch(`/api/read`).then(e => e.json()).then(e => {
+                console.log(e)
+                const target = e.find(i => i.id == id)
+                console.log(target)
+
+                name.value = target.name
+                condition.value = target.condition
+                priority.value = target.conditionPriority
+            })
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+    /* padding: 0;
+    margin: 0; */
+}
+
+body {
+    background-color: #333;
+    /* color: #f00; */
+}
+
+li, p, h1,h2,h3,h4,h5, h6, input, textarea, label,  td {
+    color: #fff;
+}
+
+input, textarea {
+    background-color: #111;
+}
+
+
+legend {
+    color: #94c;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+fieldset {
+    /* width: 98%; */
+}
+
+th {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+}
+
+table {
+    width: 100%;
+    background-color: #000;
+    /* border: solid #000 1px; */
+    padding: 0;
+}
+
+tr {
+    background-color: #888;
+}
+
+td {
+    padding:3px;
+
+}
+
+tr:nth-child(odd) {
+    background-color: #ccc;
+   
+}
+
+tr:nth-child(odd) > td {
+    color: #000;
+}
+
+button > a {
+    text-decoration: none;
+    color: #000;
+}
