@@ -39,6 +39,6 @@ void removePatient(int id);
 
 int testEquals(Patient test, Patient otherTest);
 
-void updatePatient(int id, Patient newData);
+int updatePatient(int id, Patient newData);
 void updatePositions() ;
 #endif

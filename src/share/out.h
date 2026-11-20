@@ -3,4 +3,6 @@
 
 void sendResponse(char* content);
 
+void debug(char* content);
+
 #endif

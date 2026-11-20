@@ -2,5 +2,5 @@
 #define UpdateH
 #include "../data/patient.h"
 
-void updatePatientAction(int id, Patient patient);
+int updatePatientAction(int id, Patient patient);
 #endif

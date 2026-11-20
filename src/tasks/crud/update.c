@@ -7,13 +7,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void updatePatientAction(int id, Patient patient) {
-  updatePatient(id, patient);
+int updatePatientAction(int id, Patient patient) {
+  int salvo = updatePatient(id, patient);
 
-  updatePositions();
+  if (salvo == 1) {
 
-  saveDatabase();
-
+    updatePositions();
+  
+    saveDatabase();
+  }
+  return salvo;
 }
 
 void update(String message) {

@@ -7,6 +7,7 @@
 #include "types/nodes/iteration.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #if defined(_WIN32) || defined(_WIN32)
 #define eWindows 1
@@ -26,11 +27,43 @@ void limpar() {
   }
 }
 
-void filtersPage() {}
+void searchPage(ReadParam *param) {
+  char query[100];
+  printf("escrava sua consulta: ");
+  // scanf("\n");
+  int c = 0;
+  while ((c = getchar()) != '\n' && c != EOF)
+    ;
+  // scanf("%[^\n]s", query);
+  fgets(query, 100, stdin);
+  query[strcspn(query, "\n")] = 0;
+  strcpy(param->query, query);
+}
 
-void searchPage() {}
+void orderPage(ReadParam *param) {
+  while (1) {
+    printf("escolha qual ordem: \n");
+    printf("0 - sair\n");
+    printf("1 - prioridade\n");
+    printf("2 - posição\n");
+    printf("3 - data\n");
+    printf("4 - id\n");
+    printf("escolha: ");
+    int opcao;
+    scanf("%d", &opcao);
+    limpar();
+    if (opcao == 0) {
+      break;
+    }
 
-void orderPage() {}
+    if (opcao > 0 && opcao < 5) {
+      opcao--;
+      param->order = opcao;
+      break;
+    }
+    printf("opção invalida\n");
+  }
+}
 
 void visualizar() {
   char query[100] = "";
@@ -62,12 +95,13 @@ void visualizar() {
     printf("--------------\n");
     printf("opções:\n");
     printf("0 - voltar\n");
-    printf("1 - filtrar\n");
-    printf("2 - ordenar\n");
-    printf("3 - pesquisar\n");
+    printf("1 - ordenar\n");
+    printf("2 - pesquisar\n");
     int opcao;
     scanf("%d", &opcao);
     limpar();
+    iterate(patients, patient) { free(patient); }
+    free(patients);
     if (opcao < 0 || opcao > 3) {
 
       printf("opção invalida\n");
@@ -76,13 +110,10 @@ void visualizar() {
       break;
     }
     if (opcao == 1) {
-      filtersPage();
+      orderPage(&params);
     }
     if (opcao == 2) {
-      orderPage();
-    }
-    if (opcao == 3) {
-      searchPage();
+      searchPage(&params);
     }
   }
 }
@@ -98,9 +129,15 @@ Patient form() {
   scanf("%s", name);
   printf("condição: ");
   scanf("%s", condition);
-  printf("prioridade(0 - urgente, 1 - intermediario, 2 - simples): ");
   int prioridade;
-  scanf("%d", &prioridade);
+  while (1) {
+    printf("prioridade(0 - urgente, 1 - intermediario, 2 - simples): ");
+    scanf("%d", &prioridade);
+    if (prioridade >= 0 && prioridade <= 2) {
+      break;
+    }
+    printf("prioridade invalida\n");
+  }
   data.conditionPriority = prioridade;
   return data;
 }
@@ -139,7 +176,7 @@ void atualizar() {
 
     printf("digite o id de quem você deseja editar:\n");
     iterateWithIndex(patients, i, j) {
-      printf("%d - %s - id: %d\n", j, i->value.name, i->value.id);
+      printf("%d - %s\n", i->value.id, i->value.name);
     }
     printf("ou digite 0 para voltar\n");
     int opcao;
@@ -151,7 +188,12 @@ void atualizar() {
     }
 
     Patient data = form();
-    updatePatientAction(opcao, data);
+    int salvo = updatePatientAction(opcao, data);
+    if (salvo) {
+      break;
+    }
+    limpar();
+    printf("id incorreto\n");
   }
 }
 
@@ -185,6 +227,7 @@ void menu() {
       break;
     case 3:
       atualizar();
+      break;
     case 4:
       deletar();
       break;

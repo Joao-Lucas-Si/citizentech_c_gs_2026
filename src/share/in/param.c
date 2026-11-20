@@ -1,6 +1,7 @@
 #include "../../types/communs.h"
 #include "../../types/nodes/manager.h"
 #include "../../types/string.h"
+#include "../out.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -12,7 +13,10 @@ NodeManager(String) * splitParams(char *message) {
     char **splited = splitFirstNested(content, ',');
     // printf("0: %ld, %s\n", strlen(splited[0]), splited[0]);
     // printf("1: %ld, %s\n", strlen(splited[1]), splited[1]);
+    // debug(stringf(100, "0: %ld, %s\n", strlen(splited[0]), splited[0]));
+    // if (strlen(splited[0]) > 0) {
     addEnd(String)(manager, splited[0]);
+    // }
     if (strlen(splited[1]) == 0) {
       break;
     } else {
@@ -31,7 +35,6 @@ NodeManager(String) * unpackNestedParam(char *nested) {
   nested[strlen(nested) - 1] = 0;
 
   NodeManager(String) *nestedParams = splitParams(nested);
-  
 
   return nestedParams;
 }

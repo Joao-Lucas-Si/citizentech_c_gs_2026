@@ -19,11 +19,15 @@ def start_engine():
     return True
 
 def handle() -> str:
-    result = engine.stdout.readline().strip()  # pyright: ignore[reportOptionalMemberAccess]
-    # print(f"engine: {result}")
+    result: str= engine.stdout.readline().strip() # pyright: ignore[reportOptionalMemberAccess]
+    while (result.startswith("debug:")):
+        print(result)    
+        result = engine.stdout.readline().strip()  # pyright: ignore[reportOptionalMemberAccess]
+    
+    print(f"engine: {result}")
     return result
 
 def invoke(content: str):
-    # print(f"engine message: {content}")
+    print(f"engine message: {content}")
     engine.stdin.write(content + "\n") # pyright: ignore[reportOptionalMemberAccess]
     engine.stdin.flush() # pyright: ignore[reportOptionalMemberAccess]

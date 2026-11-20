@@ -25,15 +25,18 @@ ReadParam parserReadParam(String message) {
 
   // String splitedFilters = splitParams(char *message)
   NodeManager(PatientCondition) *filters = createNodeManager(PatientCondition);
-  // if (params->length > 2) {
+  if (params->length > 2) {
 
-  //   NodeManager(String) *rawFilters =
-  //       unpackNestedParam(params->array[2]->value);
+    NodeManager(String) *rawFilters =
+        unpackNestedParam(params->array[2]->value);
+    iterate(rawFilters, i) {
+      // printf("i: %d\n", atoi(i->value));
+      if (strcmp(i->value, "" ) > 0) {
 
-  //   iterate(rawFilters, i) {
-  //     addStart(PatientCondition)(filters, atoi(i->value));
-  //   }
-  // }
+        addEnd(PatientCondition)(filters, atoi(i->value));
+      }
+    }
+  }
   param.filters = filters;
   // iterate(params, i) {
   //   free(i);

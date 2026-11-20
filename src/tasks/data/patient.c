@@ -51,8 +51,8 @@ void addTest(Patient test) {
   saveDatabase();
 }
 
-void updatePatient(int id, Patient newPatient) {
-  Node(Patient) * saved;
+int updatePatient(int id, Patient newPatient) {
+  Node(Patient) * saved = NULL;
 
   iterate(patients, i) {
     if (i->value.id == id) {
@@ -61,11 +61,15 @@ void updatePatient(int id, Patient newPatient) {
     }
   }
 
-  strcpy(saved->value.name, newPatient.name);
-  strcpy(saved->value.condition, newPatient.condition);
-  saved->value.conditionPriority = newPatient.conditionPriority;
-
-  saveDatabase();
+  if (saved != NULL) {
+    strcpy(saved->value.name, newPatient.name);
+    strcpy(saved->value.condition, newPatient.condition);
+    saved->value.conditionPriority = newPatient.conditionPriority;
+  
+    saveDatabase();
+    return 1;
+  }
+  return 0;
 }
 
 void removePatient(int id) {

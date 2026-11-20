@@ -14,7 +14,7 @@ NodeManager(Patient)* readPatients(ReadParam param) {
   iterate(getPatients(), i) {
 
     if (param.filters->length > 0) {
-      int valid = 1;
+      int valid = param.filters->length == 0 ? 1 : 0;
 
       iterate(param.filters, j) {
         if (i->value.conditionPriority == j->value) {
