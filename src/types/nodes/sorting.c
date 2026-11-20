@@ -3,7 +3,6 @@
 #include "iteration.h"
 #include "manager.h"
 #include "node.h"
-#include <bits/types/cookie_io_functions_t.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
