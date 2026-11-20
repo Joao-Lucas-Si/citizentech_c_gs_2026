@@ -9,7 +9,7 @@ import server.index
 import server.api
 
 
-PORT=int(os.environ.get("HANOI_PORT","8090"))
+PORT=int(os.environ.get("PORT","8090"))
 
 class Handler(SimpleHTTPRequestHandler):
     def end_headers(self):

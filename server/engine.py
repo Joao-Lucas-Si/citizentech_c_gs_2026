@@ -6,7 +6,7 @@ import threading
 
 BASE=Path(__file__).resolve().parents[0]
 FRONTEND=BASE/"frontend"
-ENGINE=BASE/".."/"main"
+ENGINE=BASE/".."/("main.exe" if os.name=="nt" else "main")
 
 engine: subprocess.Popen[str] = None  # pyright: ignore[reportAssignmentType]
 lock=threading.Lock()
@@ -20,10 +20,10 @@ def start_engine():
 
 def handle() -> str:
     result = engine.stdout.readline().strip()  # pyright: ignore[reportOptionalMemberAccess]
-    print(f"engine: {result}")
+    # print(f"engine: {result}")
     return result
 
 def invoke(content: str):
-    print(f"engine message: {content}")
+    # print(f"engine message: {content}")
     engine.stdin.write(content + "\n") # pyright: ignore[reportOptionalMemberAccess]
     engine.stdin.flush() # pyright: ignore[reportOptionalMemberAccess]
