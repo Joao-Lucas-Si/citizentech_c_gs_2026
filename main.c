@@ -27,17 +27,13 @@ DefineNodeManagerMethods(int);
 
 DefineNodeManagerMethods(String);
 
-void listen(char *message) {
-
-  //   send(stringf(200, "%s%s", message, message));
+void listenMessage(char *message) {
 }
 
 void receiver(char *message) {
   NodeManager(String) *params = splitParams(message);
   // printf("%s", message);
-  // send( stringf(100, "%d", params->length));
-  iterate(params, i) { send(stringf(90, "%s -> ", i->value)); }
-  //   send(stringf(100, "received: %s", message)); }
+  iterate(params, i) { sendResponse(stringf(90, "%s -> ", i->value)); }
 }
 
 void createEngine() {

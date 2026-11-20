@@ -25,6 +25,6 @@ void update(String message) {
   Patient patient = readTest(spplited[1]);
 
   updatePatientAction(id, patient);
-  send(stringf(100, "nome: %s, condição: %s, prioridade:%d", patient.name,
+  sendResponse(stringf(100, "nome: %s, condição: %s, prioridade:%d", patient.name,
                patient.condition, patient.conditionPriority));
 }

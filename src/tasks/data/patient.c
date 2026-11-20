@@ -80,7 +80,6 @@ void removePatient(int id) {
 
 Patient readTest(String message) {
   NodeManager(String) *param = splitParams(message);
-  // send("receive");
   Patient test;
 
   test.name = param->array[0]->value;

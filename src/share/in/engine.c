@@ -27,7 +27,7 @@ void engineWatcher(char *message) {
   if (target != NULL) {
     target->handler(splitedMessage[1]);
   } else {
-    send(stringf(1000, "ERROR: unknow message: %s", type));
+    sendResponse(stringf(1000, "ERROR: unknow message: %s", type));
   }
 }
 

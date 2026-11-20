@@ -5,5 +5,5 @@
 
 void delete(String message) {
     removePatient(atoi(message));
-    send("deleted");
+    sendResponse("deleted");
 }

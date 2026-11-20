@@ -37,7 +37,7 @@ NodeManager(Patient)* readPatients(ReadParam param) {
 }
 
 void read(String message) {
-  send("start:product");
+  sendResponse("start:product");
   ReadParam param = parserReadParam(message);
   // printf("query: %s\n", param.query);
   NodeManager(Patient)* results = readPatients(param);
@@ -47,9 +47,9 @@ void read(String message) {
     String parsed = stringf(1000, "%s,%s,%d,%d,%d,%d", value.name,
                             value.condition, value.conditionPriority,
                             value.position, value.id, value.date);
-    send(parsed);
+    sendResponse(parsed);
   }
-  send("end");
+  sendResponse("end");
   // iterate(results, i) {
   //   free(i);
   // }

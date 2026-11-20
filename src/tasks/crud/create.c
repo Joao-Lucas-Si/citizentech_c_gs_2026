@@ -28,7 +28,6 @@ void createPatient(Patient patient) {
 
 void createPatientMessage(String message) {
   // NodeManager(String) *param = splitParams(message);
-  // // send("receive");
   // Test test;
 
   // test.name = param->array[0]->value;
@@ -40,7 +39,7 @@ void createPatientMessage(String message) {
   Patient patient = readTest(message);
   createPatient(patient);
 
-  send(stringf(100, "nome: %s, condição: %s, prioridade:%d",
+  sendResponse(stringf(100, "nome: %s, condição: %s, prioridade:%d",
                patient.name, patient.condition, patient.conditionPriority));
   
 }

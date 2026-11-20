@@ -1,6 +1,6 @@
 #ifndef OutH
 #define OutH
 
-void send(char* content);
+void sendResponse(char* content);
 
 #endif
